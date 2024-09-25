@@ -1,10 +1,6 @@
-## Blog Post Title From First Header
+## Intercepting Docker CLI requests using Burp
 
-Due to a plugin called `jekyll-titles-from-headings` which is supported by GitHub Pages by default. The above header (in the markdown file) will be automatically used as the pages title.
-
-If the file does not start with a header, then the post title will be derived from the filename.
-
-This is a sample blog post. You can talk about all sorts of fun things here.
+Docker is now household name for container technology. Docker CLI is a very useful tool to manage containers and everything related to them.    
 
 ---
 

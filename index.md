@@ -1,5 +1,1 @@
-Here you can say lots of fun things about your site.
-
-Maybe say a some things about yourself.
-
-Or maybe what you plan to blog about.
+I'm Ritvik, a security engineer passionate about exploring the latest in technology, automation, and container security research. This blog is where I’ll share insights from my projects, findings, and technical challenges I encounter. Whether you're interested in cybersecurity, development, or innovation, I hope to offer valuable perspectives and knowledge as I continue to learn and grow in the field.
