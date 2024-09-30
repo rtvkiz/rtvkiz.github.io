@@ -24,7 +24,7 @@ After sucessfully setting up Burp, to get the request to docker Daemon and respo
 
 socat seems to be a pretty powerful tool and just listing the help command, gives list of available flags/commands, extending more than a page.
 
-![alt text](_posts/2024-09-26-base.png)
+![alt text](2024-09-26-base.png)
 
 To expose the Unix socket over TCP we will use the command:
 
@@ -39,7 +39,7 @@ Note: Observe the _fork_ keyword  in the command. This will ensure that socat do
 
 Executing the command, would not show any output in the console.
 
-![alt text](_posts/2024-09-26-image-1.png)
+![alt text](2024-09-26-image-1.png)
 
 
 
@@ -62,15 +62,15 @@ Docker API details can be found at - https://docs.docker.com/reference/api/engin
 
 Observe the response in the terminal after sending thr curl request:
 
-![alt text](_posts/2024-09-26-image-2.png)
+![alt text](2024-09-26-image-2.png)
 
 We get the details of the docker containers running on the system. Now check Burp Proxy history for any requests. You should see a GET request made to the address - localhost:12345 like the below screenshot:
 
-![alt text](_posts/2024-09-26-image-3.png)
+![alt text](2024-09-26-image-3.png)
 
 Finally, we got the request in Burp. To have fun with docker daemon calls, send the request to Burp Repeater, and start playing with different methods, and paramteres. By leveraging the API documentaion, you can easily upate the request in Burp and forward it.
 
-![alt text](_posts/2024-09-26-image-4.png)
+![alt text](2024-09-26-image-4.png)
 
 This request is querying the images in the local docker registry.
 
