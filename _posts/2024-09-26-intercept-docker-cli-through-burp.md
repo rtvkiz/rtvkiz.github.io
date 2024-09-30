@@ -24,7 +24,46 @@ After sucessfully setting up Burp, to get the request to docker Daemon and respo
 
 socat seems to be a pretty powerful tool and just listing the help command, gives list of available flags/commands, extending more than a page.
 
-![alt text](_posts/2024_09_26_base.png)
+```
+rarya@rarya-MAC2 ~ % socat -h
+socat by Gerhard Rieger and contributors - see www.dest-unreach.org
+Usage:
+socat [options] <bi-address> <bi-address>
+   options (general command line options):
+      -V     print version and feature information to stdout, and exit
+      -h|-?  print a help text describing command line options and addresses
+      -hh    like -h, plus a list of all common address option names
+      -hhh   like -hh, plus a list of all available address option names
+      -d[ddd]        increase verbosity (use up to 4 times; 2 are recommended)
+      -d0|1|2|3|4    set verbosity level (0: Errors; 4 all including Debug)
+      -D     analyze file descriptors before loop
+      --experimental enable experimental features
+      --statistics   output transfer statistics on exit
+      -ly[facility]  log to syslog, using facility (default is daemon)
+      -lf<logfile>   log to file
+      -ls            log to stderr (default if no other log)
+      -lm[facility]  mixed log mode (stderr during initialization, then syslog)
+      -lp<progname>  set the program name used for logging and vars
+      -lu            use microseconds for logging timestamps
+      -lh            add hostname to log messages
+      -v     verbose text dump of data traffic
+      -x     verbose hexadecimal dump of data traffic
+      -r <file>      raw dump of data flowing from left to right
+      -R <file>      raw dump of data flowing from right to left
+      -b<size_t>     set data buffer size (8192)
+      -s     sloppy (continue on error)
+      -S<sigmask>    log these signals, override default
+      -t<timeout>    wait seconds before closing second channel
+      -T<timeout>    total inactivity timeout in seconds
+      -u     unidirectional mode (left to right)
+      -U     unidirectional mode (right to left)
+      -g     do not check option groups
+      -L <lockfile>  try to obtain lock, or fail
+      -W <lockfile>  try to obtain lock, or wait
+      -0     do not prefer an IP version
+      -4     prefer IPv4 if version is not explicitly specified
+ 
+```
 
 To expose the Unix socket over TCP we will use the command:
 
@@ -39,7 +78,11 @@ Note: Observe the _fork_ keyword  in the command. This will ensure that socat do
 
 Executing the command, would not show any output in the console.
 
-![alt text](2024_09_26_image_1.png)
+```
+rarya@rarya-MAC2 ~ % socat TCP-LISTEN:12345,fork UNIX-CONNECT:/var/run/docker.sock 
+    
+
+```
 
 
 
@@ -62,7 +105,11 @@ Docker API details can be found at - https://docs.docker.com/reference/api/engin
 
 Observe the response in the terminal after sending thr curl request:
 
-![alt text](2024-09-26-image-2.png)
+```
+rarya@rarya-MAC2 ~ % curl -x http://localhost:8080 http://localhost:12345/v1.47/containers/json
+[{"Id":"42322aadee1b49159303cb9a7dbd8b0ae947b0836acbbcdd1200e883e69186d9","Names":["/kind_dhawan"],"Image":"ubuntu","ImageID":"sha256:1a799365aa63eed3c0ebb1c01aa5fd9d90320c46fe52938b03fb007d530d8b02","Command":"sh","Created":1727660843,"Ports":[],"Labels":{"org.opencontainers.image.ref.name":"ubuntu","org.opencontainers.image.version":"24.04"},"State":"running","Status":"Up 3 minutes","HostConfig":{"NetworkMode":"bridge"},"NetworkSettings":{"Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"MacAddress":"02:42:ac:11:00:02","DriverOpts":null,"NetworkID":"20d5499484aa15256478966b748376a1ac750b90c0691a7e8c228c7fa5c4ad6a","EndpointID":"024578205af5a3a1fc8555c1c4bcc2623993ba946e532acc7765a14d55523801","Gateway":"172.17.0.1","IPAddress":"172.17.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"DNSNames":null}}},"Mounts":[]}]
+
+```
 
 We get the details of the docker containers running on the system. Now check Burp Proxy history for any requests. You should see a GET request made to the address - localhost:12345 like the below screenshot:
 
