@@ -1,8 +1,8 @@
-## Intercepting Docker CLI UNIX Socket Requests with Burp Suite
+## Intercepting Docker API Requests via UNIX Socket with Burp Suite
 
 Docker is now a household name in container technology, and for good reason. The Docker CLI makes managing containers and everything related to them incredibly simple and efficient, making it a go-to tool in my workflow.
 
-Docker CLI uses REST API to connect to Docker Daemon (dockerd), which by default listens for requests on the UNIX socket, ideally located at `/var/run/docker.sock`, to only allow local connections by the root user. We do have another option to expose a TCP port and proxy curl command through it.
+Docker CLI uses REST API to connect to Docker Daemon (dockerd), which by default listens for requests on the UNIX socket, ideally located at `/var/run/docker.sock`, to only allow local connections by the root user. We do have another option to expose a TCP port and proxy curl command through it. **We will emulate the Docker CLI requests using cURL.**
 
 We need to have a bridge between the Unix socket and a local TCP port, which will act as a gate to the unix socket.
 
@@ -70,7 +70,7 @@ To expose the Unix socket over TCP we will use the command:
 ``socat TCP-LISTEN:12345,fork UNIX-CONNECT:/var/run/docker.sock
 ``
 
-Note: Observe the _fork_ keyword  in the command. This will ensure that socat do not terminate after we execute a curl request, and stays ALIVE.
+Note: Observe the _fork_ keyword  in the command. This will ensure that socat do not terminate after we execute a cURL request, and stays ALIVE.
 
 1. Imagine the TCP port 12345 as the gateway to the docker socket. Anything send to this port will be forwarded to the socket, where docker daemon is listening. 
 
@@ -86,12 +86,12 @@ rarya@rarya-MAC2 ~ % socat TCP-LISTEN:12345,fork UNIX-CONNECT:/var/run/docker.so
 
 
 
-In another terminal, we will send the curl request. To correctly formulate the request we need to keep two things in mind:
+In another terminal, we will send the cURL request. To correctly formulate the request we need to keep two things in mind:
 1. The request should be proxied to port where burp is listening i.e. localhost:8080
 
-2. The curl requests should be made to the exposed TCP port from the `socat` command - 12345
+2. The cURL requests should be made to the exposed TCP port from the `socat` command - 12345
 
-Working on the curl request it would simply narrow down to - 
+Working on the cURL request it would simply narrow down to - 
 
 ``curl -x http://localhost:8080 http://localhost:12345/v1.47/containers/json``
 
@@ -103,11 +103,53 @@ Docker API details can be found at - https://docs.docker.com/reference/api/engin
 
 ### Burp
 
-Observe the response in the terminal after sending thr curl request:
+Observe the response in the terminal after sending thr cURL request:
 
 ```
 rarya@rarya-MAC2 ~ % curl -x http://localhost:8080 http://localhost:12345/v1.47/containers/json
-[{"Id":"42322aadee1b49159303cb9a7dbd8b0ae947b0836acbbcdd1200e883e69186d9","Names":["/kind_dhawan"],"Image":"ubuntu","ImageID":"sha256:1a799365aa63eed3c0ebb1c01aa5fd9d90320c46fe52938b03fb007d530d8b02","Command":"sh","Created":1727660843,"Ports":[],"Labels":{"org.opencontainers.image.ref.name":"ubuntu","org.opencontainers.image.version":"24.04"},"State":"running","Status":"Up 3 minutes","HostConfig":{"NetworkMode":"bridge"},"NetworkSettings":{"Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"MacAddress":"02:42:ac:11:00:02","DriverOpts":null,"NetworkID":"20d5499484aa15256478966b748376a1ac750b90c0691a7e8c228c7fa5c4ad6a","EndpointID":"024578205af5a3a1fc8555c1c4bcc2623993ba946e532acc7765a14d55523801","Gateway":"172.17.0.1","IPAddress":"172.17.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"DNSNames":null}}},"Mounts":[]}]
+[
+  {
+    "Id": "42322aadee1b49159303cb9a7dbd8b0ae947b0836acbbcdd1200e883e69186d9",
+    "Names": [
+      "/kind_dhawan"
+    ],
+    "Image": "ubuntu",
+    "ImageID": "sha256:1a799365aa63eed3c0ebb1c01aa5fd9d90320c46fe52938b03fb007d530d8b02",
+    "Command": "sh",
+    "Created": 1727660843,
+    "Ports": [],
+    "Labels": {
+      "org.opencontainers.image.ref.name": "ubuntu",
+      "org.opencontainers.image.version": "24.04"
+    },
+    "State": "running",
+    "Status": "Up 3 minutes",
+    "HostConfig": {
+      "NetworkMode": "bridge"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "MacAddress": "02:42:ac:11:00:02",
+          "DriverOpts": null,
+          "NetworkID": "20d5499484aa15256478966b748376a1ac750b90c0691a7e8c228c7fa5c4ad6a",
+          "EndpointID": "024578205af5a3a1fc8555c1c4bcc2623993ba946e532acc7765a14d55523801",
+          "Gateway": "172.17.0.1",
+          "IPAddress": "172.17.0.2",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": null
+        }
+      }
+    },
+    "Mounts": []
+  }
+]
 
 ```
 
