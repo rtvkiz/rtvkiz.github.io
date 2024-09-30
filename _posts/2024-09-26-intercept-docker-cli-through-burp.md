@@ -24,7 +24,7 @@ After sucessfully setting up Burp, to get the request to docker Daemon and respo
 
 socat seems to be a pretty powerful tool and just listing the help command, gives list of available flags/commands, extending more than a page.
 
-![alt text](2024-09-26-base.png)
+![alt text](2024_09_26_base.png)
 
 To expose the Unix socket over TCP we will use the command:
 
@@ -39,7 +39,7 @@ Note: Observe the _fork_ keyword  in the command. This will ensure that socat do
 
 Executing the command, would not show any output in the console.
 
-![alt text](2024-09-26-image-1.png)
+![alt text](2024_09_26_image_1.png)
 
 
 
