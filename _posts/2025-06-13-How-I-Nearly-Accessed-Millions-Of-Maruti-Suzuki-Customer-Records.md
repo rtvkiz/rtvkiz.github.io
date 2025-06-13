@@ -8,11 +8,12 @@ date: 2025-06-13
 
 Opinions expressed are solely my own and do not express the views or opinions of my employer
 
-### TLDR
+### TL;DR
 
 
 Earlier this year, in the month of February, @rootsploit and I teamed up to look for bugs in Maruti Suzuki’s systems — and we ended up discovering security vulnerabilities that exposed both dealer and customer data. In this post, I walk through our motivation, reconnaissance approach, key findings, and the broader implications of what we uncovered — and why it matters.
 
+<br>
 
 ### Introduction
 After starting a new role as a Proactive Security Engineer last year , I spent most of my time on the left side of security learning everything I could about my new responsibilities. Between the new challenges, my bug bounty hunting quietly slipped into the background. But earlier this year, I decided it was time to get back in the game and start hunting for new Bug bounty targets.
@@ -23,7 +24,7 @@ While catching up on the latest in the bug bounty community, I stumbled upon Sam
 
 Fueled by curiosity, I messaged @rootsploit—a fellow hacker to see if he’d be up for teaming up on a new target. We bounced around a few ideas, but one stood out right away: Maruti Suzuki. It’s not just the biggest car company in India, but one of the largest in Asia. With so many customers and such a massive online presence, I figured there had to be something interesting hiding in plain sight.
 
-
+<br>
 
 ### Recon
 We started with the basics—mapping out all the digital assets tied to Maruti Suzuki. This meant poking around their main website, checking out customer-facing services, and looking for any backend systems that might be less obvious but more interesting from a security perspective.
@@ -54,7 +55,7 @@ It was a simple, straightforward page which only had the login fields and `forgo
 
 ![alt text](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/refs/heads/main/_posts/dealercrm.png)
 
-
+<br>
 
 ### Dig Deeper
 
@@ -274,6 +275,7 @@ stream
 ```
 It was straightforward to chain the previous `dealerregionlistpending` endpoint with the `downloadfileOnly` API. By extracting the URL keys from the earlier response and passing them directly into the file download endpoint, we could systematically retrieve and store Aadhar and PAN card documents for every dealer onboarded in Maruti Suzuki’s systems. This was serious - leaking Aadhar and PAN information is a major privacy violation under Indian law and can trigger government investigation or regulatory action.
 
+<br>
 
 ### Customer Data
 Probably the one you were waiting for. Upon testing we realised that there were multiple ways to get same data and the only difference was the input parameter - mobile number, registration number or an internal id call svocId. To get customer data we hit the endpoint `/api/customerdetail/fetchcustomerdetailsnew `. 
@@ -398,6 +400,7 @@ Content-Length: 5295
 
 Observe the fields containing sensitive customer PII.. Some of the information we were able to access was contact details, address information, vehicle asset details etc.  This information was very handy while chaining different API calls.
 
+<br>
 
 ### Customer Vehicle Insurance detials
 Another API that I would like to highlight is `/api/insurance details/getpolicydetailsmarutinew`. Not hard to interpret, this call allowed us to retrieve vehicle insurance details of Maruti Suzuki Customers and needed two parameters:
@@ -539,12 +542,14 @@ Response:
 
 The response from this API immediately caught our attention. It exposed a wealth of sensitive data, including nominee details, insurance policy information, and full contact records—raising serious concerns about the level of access available without proper authorization. 
 
+<br>
 
 ### Impact
 
 The potential impact of this breach was massive. With access to data belonging to nearly 25 million customers, a threat actor could have done serious damage. While we focused on a subset of the exposed APIs, many others were still reachable and likely vulnerable. What makes this even more critical is how easily these API call chains could be automated to perform large-scale data exfiltration. In India, Aadhar and PAN card details are tightly linked to a wide range of essential services—from banking to government schemes—which increases the risk of downstream exploitation. The leaked data, which includes service history and vehicle damage records, offers threat actors a precise timeline and context to execute highly convincing phishing attacks.
 Even low-skilled attackers could script the API calls to build detailed user profiles, potentially weaponizing that information for identity theft, financial fraud, or large-scale social engineering campaigns.
 
+<br>
 
 ### Findings Summarized
 
@@ -560,6 +565,7 @@ Even low-skilled attackers could script the API calls to build detailed user pro
 | 7  | SmartEye Data Leak                           | Exposure of vehicle damage information. |
 | 8  | Dealer Workshop Activity Exposure            | Access to in-out car information for dealer workshops across any time period. |
 
+<br>
 
 ### Reporting and Disclosure
 
