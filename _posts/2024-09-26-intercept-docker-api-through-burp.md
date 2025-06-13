@@ -159,7 +159,7 @@ We get the details of the docker containers running on the system. Now check Bur
 
 Finally, we got the request in Burp. To have fun with docker daemon calls, send the request to Burp Repeater, and start playing with different methods, and paramteres. By leveraging the API documentaion, you can easily upate the request in Burp and forward it.
 
-![Burp Repeater](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/main/_posts/2024-09-26-image-4.png)
+![Burp Repeater](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/f7fa08ae5d9a47a22068b33b9e19da6784eea193/_posts/2024-09-26-image-4.png)
 
 This request is querying the images in the local docker registry.
 
