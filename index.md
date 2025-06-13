@@ -3,8 +3,6 @@ layout: default
 title: Home
 ---
 
-# Welcome to Ritvik's Tech Blog
-
 A security researcher with a passion for containers!
 
 ## Latest Posts
