@@ -1,1 +1,18 @@
-I'm a security engineer passionate about exploring the latest in application security and automation, container security research. This blog is where I’ll share insights from my projects, findings, and technical challenges I encounter. Whether you're interested in cybersecurity, development, or innovation, I hope to offer valuable perspectives and knowledge as I continue to learn and grow in the field.
+---
+layout: default
+title: Home
+---
+
+# Welcome to Ritvik's Tech Blog
+
+A security researcher with a passion for containers!
+
+## Latest Posts
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a> — {{ post.date | date: "%b %-d, %Y" }}
+    </li>
+  {% endfor %}
+</ul>

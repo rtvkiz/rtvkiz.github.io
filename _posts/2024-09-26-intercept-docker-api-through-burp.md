@@ -1,3 +1,9 @@
+---
+layout: default
+title: "Intercepting Docker API Requests via UNIX Socket with Burp Suite"
+date: 2024-09-26
+---
+
 ## Intercepting Docker API Requests via UNIX Socket with Burp Suite
 
 Docker is now a household name in container technology, and for good reason. The Docker CLI makes managing containers and everything related to them incredibly simple and efficient, making it a go-to tool in my workflow.

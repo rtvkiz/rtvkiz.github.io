@@ -1,3 +1,9 @@
+---
+layout: default
+title: "How I Nearly Accessed Millions of Maruti Suzuki Customer Records"
+date: 2025-06-13
+---
+
 # How I Nearly Accessed Millions Of Maruti Suzuki Customer Records
 
 Opinions expressed are solely my own and do not express the views or opinions of my employer
