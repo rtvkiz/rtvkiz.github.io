@@ -46,7 +46,7 @@ Registrant State/Province: Haryana
 It was a simple, straightforward page which only had the login fields and `forgot your password` option.
 
 
-![alt text](image-2.png)
+![alt text](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/refs/heads/main/_posts/dealercrm.png)
 
 
 
@@ -56,7 +56,7 @@ At first, nothing seemed off with the login or password reset flows. But I start
 Hidden in one of the main.js JavaScript files, I found references to 6 different subdomains. These weren’t obvious from just browsing the site, but they looked like they could be tied to internal dealer operations or other backend systems. Each one felt like a new rabbit hole to explore, and it was clear we were just scratching the surface.
 
 
-![alt text](<Screenshot 2025-02-19 235128.png>)
+![alt text](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/refs/heads/main/_posts/subdomain.png)
 
 
 1. user.dealercrm.co.in
@@ -70,10 +70,10 @@ Hidden in one of the main.js JavaScript files, I found references to 6 different
 I browsed all of these endpoints but the `/` or `/api` paths as seen in the screenshot resulted in an error or gave no response. Now the next sensible step was to do directory brute forcing. Running dirsearch on all these endpoints with the default wordlist gave very interesting output. `smr.dealercrm.co.in` and `user.dealercrm.co.in` had publicly accessible `SwaggerUI endpoints`
 
 
-![alt text](<Screenshot 2025-02-23 224557.png>)
+![alt text](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/refs/heads/main/_posts/user.png)
 
 
-![alt text](<Screenshot 2025-02-23 224529.png>)
+![alt text](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/refs/heads/main/_posts/smr.png)
 
 
 
@@ -401,7 +401,7 @@ Another API that I would like to highlight is `/api/insurance details/getpolicyd
 
 It was easy to retrieve vehicle `vinNo` from many different API calls like previously described `customerdetails` API but there was no information of the policyNo. We did little recon on insurance website for Maruti Suzuki which led us to  `https://www.marutisuzukiinsurance.com`. We only needed the policy number and luckily the webiste provided that value with just the registered mobile number of the registered user. 
 
-![alt text](image-1.png)
+![alt text](https://raw.githubusercontent.com/rtvkiz/rtvkiz.github.io/refs/heads/main/_posts/policy-page.png)
 
 There were often multiple ways to retrieve the same values across different APIs. For instance, a `vinNo` could be obtained either from the vehicle details API or the customer info API. Leveraging this, we crafted a request to the `getpolicydetailsmarutinew` endpoint.
 
@@ -576,6 +576,6 @@ Thank you for reading!
 | Mar 2, 2025     | Report sent to Maruti Suzuki security manager               |
 | Mar 13, 2025     | Attempt to reach out to Maruti Suzuki - no response            |
 |May 18, 2025 | Vulnerability fixed - unable to reproduce | 
-| June 13, 2025    |   log published after 90-day disclosure period  
+| June 13, 2025    |   Blog published after 90-day disclosure period  
 
 ----------
