@@ -173,6 +173,8 @@ Now it was only a matter of sending requests with valid request parameters. To b
 
 After filtering and testing, we were able to successfully interact with over 15 different endpoints — many of which returned highly sensitive customer and dealer information. Below, I’ve highlighted the most impactful requests we uncovered during the assessment.
 
+<br>
+
 ### Dealer Data
 The API call on `/api/dealeronboarding/getdealerregionlistpending` was the first API we tested after getting the JWT token. It only needed a simple integer value - `userId`
 
