@@ -1,0 +1,13 @@
+# GitHub Pages Configuration
+# This repository redirects to rtvkiz.vercel.app
+
+title: Redirecting to rtvkiz.vercel.app
+description: Redirecting to main site...
+
+# Minimal theme for redirect
+theme: minima
+
+# GitHub Pages settings
+plugins:
+  - jekyll-feed
+
